@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import './App.css';
 import Header from './components/Header';
+import Footer from './components/Footer';
 import Post from './components/Post';
 import SelectedItem from './components/SelectedItem';
 import Barry from './otters/otter1.jpg';
@@ -19,14 +20,24 @@ const ottersArray = [
 
 function App() {
   const [selectedPostName, setSelectedPostName] = useState('Barry');
+  const [shuffledArray, changeShuffledArray] = useState(ottersArray);
   const selectedPost = ottersArray.find(otter => otter.name === selectedPostName);
+  
+  function shuffle () {
+    let arr = [...shuffledArray]
+    arr.push(arr.shift())
+    //return ottersArray
+    changeShuffledArray(arr)
+    //console.log(shuffledArray)
+  }
 
   return (
     <div>
       <Header />
+      <button onClick={() => shuffle()}> Shuffle </button>
       <div className='app-content'>
         <ul className='post-list'>
-          {ottersArray.map((post) => (
+          {shuffledArray.map((post) => (
             <Post
               key={post.id}
               image={post.image}
@@ -40,6 +51,8 @@ function App() {
           name={selectedPost.name}
         />
       </div>
+      <Footer name = 'Gabriel Gamboa'/>
+          
     </div>
   );
 }
